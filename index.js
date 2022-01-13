@@ -44,10 +44,13 @@ var start = () => {
             }
         ])
         .then(function(response) {
+            var newHTMl;
             const newManager = new Manager(response.managerName, response.managerId, response.managerEmail, response.managerOfficeNumber);
+
+            console.log(response.addOrQuit);
             
         })
 }
 
 
-console.log(startHTML + addMember + finish);
+start();
