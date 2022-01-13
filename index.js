@@ -3,10 +3,15 @@ const fs = require('fs');
 const inquirer = require('inquirer');
 
 // Imported Classes
-const employee = require('./lib/employee');
-const engineer = require('./lib/engineer');
-const intern = require('./lib/intern');
-const manager = require('./lib/manager');
+const Employee = require('./lib/employee');
+const Engineer = require('./lib/engineer');
+const Intern = require('./lib/intern');
+const Manager = require('./lib/manager');
+
+// Imported HTML Templates
+let startHTML = require('./HTML_Templates/startHTML');
+let addMember = require('./HTML_Templates/addMember');
+let finish = require('./HTML_Templates/finish');
 
 var start = () => {
     inquirer
@@ -38,7 +43,11 @@ var start = () => {
                 choices: ['Add an engineer', 'Add an intern', 'Finish']
             }
         ])
+        .then(function(response) {
+            const newManager = new Manager(response.managerName, response.managerId, response.managerEmail, response.managerOfficeNumber);
+            
+        })
 }
 
 
-start();
+console.log(startHTML + addMember + finish);
