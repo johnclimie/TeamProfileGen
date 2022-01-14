@@ -78,19 +78,70 @@ var start = () => {
             `;
             
             if (response.addOrQuit === "Add an engineer" || response.addOrQuit === "Add an intern") {
-                console.log("test");
-            } else {
-                newHTML += 
-                `
-                        </div>
-                    </div>
-                </body>
-                </html>
-                `
-            }
+                function addEngineerOrIntern(input) {
+                    if (input.addOrQuit === "Add an engineer") {
+                        inquirer
+                            .prompt([
+                                {
+                                    name: "engineerName",
+                                    message: `What is this engineer's name?`,
+                                    type: 'input'
+                                },
+                                {
+                                    name: "engineerId",
+                                    message: `What is this engineer's Id?`,
+                                    type: "input"
+                                },
+                                {
+                                    name: "engineerEmail",
+                                    message: `What is this engineer's email?`,
+                                    type: 'input'
+                                },
+                                {
+                                    name: "engineerGithub",
+                                    message: `What is this engineer's Github?`,
+                                    type: 'input'
+                                },
+                                {
+                                    name: 'addOrQuit',
+                                    message: `What would you like to do?`,
+                                    type: 'list',
+                                    choices: ['Add an engineer', 'Add an intern', 'Finish']
+                                }
+                            ])
+                            .then(function(eResponse) {
+                                let newEngineer = new Engineer(eResponse.engineerName, eResponse.engineerId, eResponse.engineerEmail, eResponse.engineerGithub);
 
-            console.log(newHTML);
-            
+                                newHTML +=
+                                `
+                                            <div class='card p-2 col-3 m-2 bg-light'>
+                                                <div class='p-3 border-bottom border-dark'>
+                                                    <h1 class='card-title'>${newEngineer.getName()}</h1>
+                                                    <h2 class='card-subtitle'>${newEngineer.getRole()}</h2>
+                                                </div>
+                                                <div class='card-text p-3'>
+                                                    <p class='card-text'>ID: ${JSON.stringify(newEngineer.getId())}</p>
+                                                    <p class='card-text'>Email:<a href="#">${newEngineer.getEmail()}</a></p>
+                                                    <p class='card-text'>${(newEngineer.getGithub())}</p>
+                                                </div>
+                                            </div>
+                                `
+                            })
+                    } else if (input.addOrQuit === "Add an intern") {
+                        console.log("intern");
+                    } else {
+                        newHTML += 
+                        `
+                                </div>
+                            </div>
+                        </body>
+                        </html>
+                        ` 
+                    }
+                }
+
+                addEngineerOrIntern(response);
+            } 
         })
 }
 
