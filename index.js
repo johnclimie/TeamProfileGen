@@ -12,6 +12,7 @@ const Manager = require('./lib/manager');
 let startHTML = require('./HTML_Templates/startHTML');
 let addMember = require('./HTML_Templates/addMember');
 let finish = require('./HTML_Templates/finish');
+const internal = require('stream');
 
 var start = () => {
     inquirer
@@ -77,71 +78,107 @@ var start = () => {
                         </div>
             `;
             
-            if (response.addOrQuit === "Add an engineer" || response.addOrQuit === "Add an intern") {
-                function addEngineerOrIntern(input) {
-                    if (input.addOrQuit === "Add an engineer") {
-                        inquirer
-                            .prompt([
-                                {
-                                    name: "engineerName",
-                                    message: `What is this engineer's name?`,
-                                    type: 'input'
-                                },
-                                {
-                                    name: "engineerId",
-                                    message: `What is this engineer's Id?`,
-                                    type: "input"
-                                },
-                                {
-                                    name: "engineerEmail",
-                                    message: `What is this engineer's email?`,
-                                    type: 'input'
-                                },
-                                {
-                                    name: "engineerGithub",
-                                    message: `What is this engineer's Github?`,
-                                    type: 'input'
-                                },
-                                {
-                                    name: 'addOrQuit',
-                                    message: `What would you like to do?`,
-                                    type: 'list',
-                                    choices: ['Add an engineer', 'Add an intern', 'Finish']
-                                }
-                            ])
-                            .then(function(eResponse) {
-                                let newEngineer = new Engineer(eResponse.engineerName, eResponse.engineerId, eResponse.engineerEmail, eResponse.engineerGithub);
+            
+            if (response.addOrQuit === "Add an engineer") {
+                inquirer
+                    .prompt([
+                        {
+                            name: 'eName',
+                            message: `What is this engineer's name?`,
+                            type: 'input'
+                        },
+                        {
+                            name: 'eId',
+                            message: `What is this engineer's id?`,
+                            type: 'input'
+                        },
+                        {
+                            name: 'eEmail',
+                            message: `What is this employee's email?`,
+                            type: 'input'
+                        },
+                        {
+                            name: 'eGithub',
+                            message: `What is this employee's Github name?`,
+                            type: 'input'
+                        },
+                        {
+                            name: 'eAddOrQuit',
+                            message: `What would you like to do?`,
+                            type: 'list',
+                            choices: ['Add an engineer', 'Add an intern', 'Finish']
+                        }
+                    ])
+                    .then(function(response) {
+                        let newEng = new Engineer(response.eName, response.eId, response.eEmail, response.eGithub);
 
-                                newHTML +=
-                                `
-                                            <div class='card p-2 col-3 m-2 bg-light'>
-                                                <div class='p-3 border-bottom border-dark'>
-                                                    <h1 class='card-title'>${newEngineer.getName()}</h1>
-                                                    <h2 class='card-subtitle'>${newEngineer.getRole()}</h2>
-                                                </div>
-                                                <div class='card-text p-3'>
-                                                    <p class='card-text'>ID: ${JSON.stringify(newEngineer.getId())}</p>
-                                                    <p class='card-text'>Email:<a href="#">${newEngineer.getEmail()}</a></p>
-                                                    <p class='card-text'>${(newEngineer.getGithub())}</p>
-                                                </div>
-                                            </div>
-                                `
-                            })
-                    } else if (input.addOrQuit === "Add an intern") {
-                        console.log("intern");
-                    } else {
-                        newHTML += 
+                        newHTML +=
                         `
-                                </div>
-                            </div>
-                        </body>
-                        </html>
-                        ` 
-                    }
-                }
+                                    <div class='card p-2 col-3 m-2 bg-light'>
+                                        <div class='p-3 border-bottom border-dark'>
+                                            <h1 class='card-title'>${newEng.getName()}</h1>
+                                            <h2 class='card-subtitle'>${newEng.getRole()}</h2>
+                                        </div>
+                                        <div class='card-text p-3'>
+                                            <p class='card-text'>ID: ${JSON.stringify(newEng.getId())}</p>
+                                            <p class='card-text'>Email:<a href="#">${newEng.getEmail()}</a></p>
+                                            <p class='card-text'>${newEng.getGithub()}</p>
+                                        </div>
+                                    </div>
+                        `
+                    })
+            } else if(response.addOrQuit === "Add an intern") {
+                inquirer
+                    .prompt([
+                        {
+                            name: "iName",
+                            message: `What is this intern's name?`,
+                            type: 'input'
+                        },
+                        {
+                            name: "iId",
+                            message: `What is this intern's Id?`,
+                            type: 'input'
+                        },
+                        {
+                            name: "iEmail",
+                            message: `What is this intern's email?`,
+                            type: 'input'
+                        },
+                        {
+                            name: "iSchool",
+                            message: `What is this intern's school?`,
+                            type: 'input'
+                        },
+                        {
+                            name: "iAddOrQuit",
+                            message: `What would you like to do?`,
+                            type: 'list',
+                            choices: ['Add an engineer', 'Add an intern', 'Finish'] 
+                        }
+                    ])
+                    .then(function(response) {
+                        let newInt = new Intern(response.iName, response.iId, response.iEmail, response.iSchool)
 
-                addEngineerOrIntern(response);
-            } 
+                        newHTML +=
+                        `
+                                    <div class='card p-2 col-3 m-2 bg-light'>
+                                        <div class='p-3 border-bottom border-dark'>
+                                            <h1 class='card-title'>${newInt.getName()}</h1>
+                                            <h2 class='card-subtitle'>${newInt.getRole()}</h2>
+                                        </div>
+                                        <div class='card-text p-3'>
+                                            <p class='card-text'>ID: ${JSON.stringify(newInt.getId())}</p>
+                                            <p class='card-text'>Email:<a href="#">${newInt.getEmail()}</a></p>
+                                            <p class='card-text'>${newInt.getSchool()}</p>
+                                        </div>
+                                    </div>
+                        `
+                    })
+
+            } else if (response.addOrQuit === "Finish"){
+                
+            }
         })
 }
 
