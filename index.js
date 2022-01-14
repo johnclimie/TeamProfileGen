@@ -76,6 +76,19 @@ var start = () => {
                             </div>
                         </div>
             `;
+            
+            if (response.addOrQuit === "Add an engineer" || response.addOrQuit === "Add an intern") {
+                console.log("test");
+            } else {
+                newHTML += 
+                `
+                        </div>
+                    </div>
+                </body>
+                </html>
+                `
+            }
+
             console.log(newHTML);
             
         })
