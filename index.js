@@ -58,9 +58,9 @@ var start = () => {
                             <h2 class='card-subtitle'>${newManager.getRole()}</h2>
                             </div>
                             <div class='card-text p-3'>
-                                <p class='card-text'>ID: ${JSON.stringify(newManager.getId())}</p>
-                                <p class='card-text'>Email:<a href="#">${newManager.getEmail()}</a></p>
-                                <p class='card-text'>Office Number: ${JSON.stringify(newManager.getofficeNumber())}</p>
+                                <p class='card-text'>ID: ${JSON.parse(JSON.stringify(newManager.getId()))}</p>
+                                <p class='card-text'>Email: <a href="mailto:${newManager.getEmail()}">${newManager.getEmail()}</a></p>
+                                <p class='card-text'>Office Number: ${JSON.parse(JSON.stringify(newManager.getofficeNumber()))}</p>
                             </div>
                         </div>
             `;
@@ -114,9 +114,9 @@ var start = () => {
                                                             <h2 class='card-subtitle'>${newEng.getRole()}</h2>
                                                         </div>
                                                         <div class='card-text p-3'>
-                                                            <p class='card-text'>ID: ${JSON.stringify(newEng.getId())}</p>
-                                                            <p class='card-text'>Email:<a href="#">${newEng.getEmail()}</a></p>
-                                                            <p class='card-text'>Github: ${newEng.getGithub()}</p>
+                                                            <p class='card-text'>ID: ${JSON.parse(JSON.stringify(newEng.getId()))}</p>
+                                                            <p class='card-text'>Email:<a href="mailto:${newEng.getEmail()}">${newEng.getEmail()}</a></p>
+                                                            <p class='card-text'>Github: <a href="https://www.github.com/${newEng.getGithub()}" target="_blank">${newEng.getGithub()}</a></p>
                                                         </div>
                                                     </div>
                                         `
@@ -157,8 +157,8 @@ var start = () => {
                                                             <h2 class='card-subtitle'>${newInt.getRole()}</h2>
                                                         </div>
                                                         <div class='card-text p-3'>
-                                                            <p class='card-text'>ID: ${JSON.stringify(newInt.getId())}</p>
-                                                            <p class='card-text'>Email:<a href="#">${newInt.getEmail()}/a></p>
+                                                            <p class='card-text'>ID: ${JSON.parse(JSON.stringify(newInt.getId()))}</p>
+                                                            <p class='card-text'>Email :<a href="mailto:${newInt.getEmail()}">${newInt.getEmail()}</a></p>
                                                             <p class='card-text'>School: ${newInt.getSchool()}</p>
                                                         </div>
                                                     </div>
@@ -174,6 +174,13 @@ var start = () => {
                             </body>
                             </html>
                             `
+
+                            fs.writeFile('index.html', newHTML, err => {
+                                if (err) {
+                                    console.error(err)
+                                    return;
+                                }
+                            })
                         }
                     })
             }
