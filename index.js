@@ -7,7 +7,9 @@ const Engineer = require('./lib/engineer');
 const Intern = require('./lib/intern');
 const Manager = require('./lib/manager');
 
+// Function for starting application
 var start = () => {
+    // Asks questions about manager
     inquirer
         .prompt([
             {
@@ -32,6 +34,7 @@ var start = () => {
             },
         ])
         .then(function(response) {
+            // Creates new HTML file and appends data from response to HTML file
             var newHTML;
             let newManager = new Manager(response.managerName, response.managerId, response.managerEmail, response.managerOfficeNumber);
             newHTML +=
@@ -67,6 +70,7 @@ var start = () => {
 
 
             function addMember() {
+                // Asks if another team member should be included
                 inquirer
                     .prompt(
                         {
@@ -79,6 +83,7 @@ var start = () => {
 
                     .then(function(response) {
                         if (response.addOrQuit === "Add an engineer" || response.addOrQuit === "Add an intern") {
+                            // If a new engineer is selected, they are asked questions about engineer, then input is appended to more HTML which is added to HTML 
                             if (response.addOrQuit === "Add an engineer") {
                                 inquirer
                                     .prompt([
@@ -122,6 +127,7 @@ var start = () => {
                                         `
                                         addMember();
                                     })
+                            // If a new intern is selected, they are asked questions about intern, then input is appended to more HTML which is added to HTML
                             } else if ( response.addOrQuit === "Add an intern") {
                                 inquirer
                                     .prompt([
@@ -158,7 +164,7 @@ var start = () => {
                                                         </div>
                                                         <div class='card-text p-3'>
                                                             <p class='card-text'>ID: ${JSON.parse(JSON.stringify(newInt.getId()))}</p>
-                                                            <p class='card-text'>Email :<a href="mailto:${newInt.getEmail()}">${newInt.getEmail()}</a></p>
+                                                            <p class='card-text'>Email: <a href="mailto:${newInt.getEmail()}">${newInt.getEmail()}</a></p>
                                                             <p class='card-text'>School: ${newInt.getSchool()}</p>
                                                         </div>
                                                     </div>
@@ -166,6 +172,7 @@ var start = () => {
                                         addMember();
                                     })
                             }
+                        // If nothing is selected, the HTML file is closed off. The application will continue until 'Finish' is selected
                         } else {
                             newHTML += 
                             `
@@ -174,7 +181,7 @@ var start = () => {
                             </body>
                             </html>
                             `
-
+                            // A new HTML file is written, with the data being provided by the HTML file that was generated
                             fs.writeFile('index.html', newHTML, err => {
                                 if (err) {
                                     console.error(err)
@@ -185,11 +192,11 @@ var start = () => {
                     })
             }
 
-
+            // Invokes addMember function
             addMember();
 
         })
 }
 
-
+//Start function is invoked
 start();
